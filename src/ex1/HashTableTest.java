@@ -1,4 +1,4 @@
-package original;
+package ex1;
 
 import ex1.HashTable;
 import org.junit.jupiter.api.Assertions;
@@ -63,6 +63,9 @@ class HashTableTest {
                 " bucket[2] = [2, Angel]\n" +
                 " bucket[8] = [-5, hola]\n" +
                 " bucket[12] = [pedro, 77]", hashTable.toString());
+
+        //
+
     }
 
     @Test
@@ -81,14 +84,14 @@ class HashTableTest {
     void drop() {
         hashTable.put("0", "Andres");
         hashTable.put("1", "Andres");
+        hashTable.put("100", "Andrges");
         hashTable.put("1", "pedro");
         hashTable.put("2", "Angel");
         hashTable.put("77", "pedro");
         hashTable.put("3", "Paco");
         hashTable.put("-5" , "hola");
 
-
-        hashTable.drop("-5");
+        hashTable.drop("1");
 
         Assertions.assertEquals("\n" +
                 " bucket[0] = [0, Andres] -> [77, pedro]\n" +
