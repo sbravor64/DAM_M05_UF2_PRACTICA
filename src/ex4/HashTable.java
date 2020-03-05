@@ -72,13 +72,23 @@ public class HashTable extends Main {
         if(entries[hash] != null) {
             HashEntry temp = entries[hash];
 
-            while( !temp.key.equals(key))
-                temp = temp.next;
+            temp = getHashEntry(key, temp);
 
             return temp.value;
         }
 
         return null;
+    }
+
+    /**
+     * @param key clave para buscar (get) o quitar (drop) un elemento según el método que lo llame
+     * @param temp parametro (hijo de la clase HashEntry) que coje la clave y el valor de un elemento
+     * @return
+     */
+    private HashEntry getHashEntry(String key, HashEntry temp) {
+        while (!temp.key.equals(key))
+            temp = temp.next;
+        return temp;
     }
 
     /**
@@ -89,8 +99,7 @@ public class HashTable extends Main {
         if(entries[hash] != null) {
 
             HashEntry temp = entries[hash];
-            while( !temp.key.equals(key))
-                temp = temp.next;
+            temp = getHashEntry(key, temp);
 
             if(temp.prev == null) entries[hash] = temp.next;             //esborrar element únic (no col·lissió)
             else{

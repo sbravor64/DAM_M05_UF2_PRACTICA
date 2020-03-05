@@ -58,8 +58,7 @@ public class HashTable extends Main {
         if(entries[hash] != null) {
             HashEntry temp = entries[hash];
 
-            while( !temp.key.equals(key))
-                temp = temp.next;
+            temp = getHashEntry(key, temp);
 
             return temp.value;
         }
@@ -67,13 +66,18 @@ public class HashTable extends Main {
         return null;
     }
 
+    private HashEntry getHashEntry(String key, HashEntry temp) {
+        while (!temp.key.equals(key))
+            temp = temp.next;
+        return temp;
+    }
+
     public void drop(String key) {
         int hash = getHash(key);
         if(entries[hash] != null) {
 
             HashEntry temp = entries[hash];
-            while( !temp.key.equals(key))
-                temp = temp.next;
+            temp = getHashEntry(key, temp);
 
             if(temp.prev == null) entries[hash] = temp.next;             //esborrar element únic (no col·lissió)
             else{
