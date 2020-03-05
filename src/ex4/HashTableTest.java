@@ -1,6 +1,5 @@
-package ex1;
+package ex4;
 
-import ex1.HashTable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

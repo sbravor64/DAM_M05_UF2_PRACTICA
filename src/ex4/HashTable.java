@@ -8,28 +8,29 @@ import java.util.ArrayList;
 /**
  *
  */
-public class HashTable {
+public class HashTable extends Main {
     private int INITIAL_SIZE = 16;
     private int size = 0;
+    private boolean modificando=false;
     private HashEntry[] entries = new HashEntry[INITIAL_SIZE];
 
     /**
-     * @return
+     * @return nos devuelve cuantos valores hay en la tabla (el tamaño de la tabla)
      */
     public int size(){
         return this.size;
     }
 
     /**
-     * @return
+     * @return nos devuelve el tamaño real de la tabla, siempre será 16
      */
     public int realSize(){
         return this.INITIAL_SIZE;
     }
 
     /**
-     * @param key
-     * @param value
+     * @param key clave para los valores que agregemos a la tabla
+     * @param value valor que añadiremos a la tabla
      */
     public void put(String key, String value) {
         int hash = getHash(key);
@@ -40,18 +41,31 @@ public class HashTable {
         }
         else {
             HashEntry temp = entries[hash];
-            while(temp.next != null)
-                temp = temp.next;
+            if(temp.key.equals(key)){
+                modificando = true;
+                temp.value = hashEntry.value;
+            } else {
+                while(temp.next != null){
+                    temp = temp.next;
+                    if(temp.key.equals(key)){
+                        modificando = true;
+                        temp.value = hashEntry.value;
+                        return;
+                    }
+                }
+                temp.next = hashEntry;
+                hashEntry.prev = temp;
+            }
+        }
 
-            temp.next = hashEntry;
-            hashEntry.prev = temp;
+        if(modificando){
+            size++;
         }
     }
 
-
     /**
-     * @param key
-     * @return
+     * @param key clave por la cual buscaremos un valor en la tabla
+     * @return nos devuelve el valor encontrado con la clave añadida
      */
     public String get(String key) {
         int hash = getHash(key);
@@ -68,7 +82,7 @@ public class HashTable {
     }
 
     /**
-     * @param key
+     * @param key clave por la cual buscaremos un valor y lo eliminaremos de la tabla
      */
     public void drop(String key) {
         int hash = getHash(key);
@@ -78,26 +92,27 @@ public class HashTable {
             while( !temp.key.equals(key))
                 temp = temp.next;
 
-            if(temp.prev == null) entries[hash] = null;             //esborrar element únic (no col·lissió)
+            if(temp.prev == null) entries[hash] = temp.next;             //esborrar element únic (no col·lissió)
             else{
                 if(temp.next != null) temp.next.prev = temp.prev;   //esborrem temp, per tant actualitzem l'anterior al següent
                 temp.prev.next = temp.next;                         //esborrem temp, per tant actualitzem el següent de l'anterior
             }
         }
+        size--;
     }
 
     /**
-     * @param key
-     * @return
+     * @param key clave por la cual buscaremos un valor en la tabla
+     * @return coge el hash de la clave y la divide en 16
      */
     private int getHash(String key) {
         // piggy backing on java string
         // hashcode implementation.
-        return key.hashCode() % INITIAL_SIZE;
+        return Math.abs(key.hashCode()) % INITIAL_SIZE;
     }
 
     /**
-     *
+     * Clase que coge la clave y el valor de un elemento para la utilidad de los métodos
      */
     private class HashEntry {
         String key;
@@ -107,10 +122,6 @@ public class HashTable {
         HashEntry next;
         HashEntry prev;
 
-        /**
-         * @param key
-         * @param value
-         */
         public HashEntry(String key, String value) {
             this.key = key;
             this.value = value;
@@ -118,9 +129,6 @@ public class HashTable {
             this.prev = null;
         }
 
-        /**
-         * @return
-         */
         @Override
         public String toString() {
             return "[" + key + ", " + value + "]";
@@ -128,7 +136,7 @@ public class HashTable {
     }
 
     /**
-     * @return
+     * @return devuelve los elementos añadidos a la tabla
      */
     @Override
     public String toString() {
@@ -139,7 +147,6 @@ public class HashTable {
                 bucket++;
                 continue;
             }
-
             hashTableStr.append("\n bucket[")
                     .append(bucket)
                     .append("] = ")
@@ -229,24 +236,9 @@ public class HashTable {
     }
 
     /**
-     * @param args
+     * @param msg mensaje que queremos imprimir por consola
      */
-    public static void main(String[] args) {
-        HashTable hashTable = new HashTable();
-        
-        // Put some key values.
-        for(int i=0; i<30; i++) {
-            final String key = String.valueOf(i);
-            hashTable.put(key, key);
-        }
-
-        // Print the HashTable structure
-        log("****   HashTable  ***");
-        log(hashTable.toString());
-        log("\nValue for key(20) : " + hashTable.get("20") );
-    }
-
-    private static void log(String msg) {
+    static void log(String msg) {
         System.out.println(msg);
     }
 }

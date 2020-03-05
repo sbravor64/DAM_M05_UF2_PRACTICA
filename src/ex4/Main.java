@@ -1,8 +1,13 @@
-package ex2;
+package ex4;
 
 //REFACCIÓ: he aplicado el método de refacción main por qué
 // he considerado que lo ideal es hacerlo independiente de la clase HasTable
 // y tenerlo todo más organizado
+
+
+/**
+ * Clase Main, es donde llamamos a la clase HashTable y procedemos a crear los elementos
+ */
 public class Main {
     public static void main(String[] args) {
         HashTable hashTable = new HashTable();
