@@ -163,16 +163,16 @@ public class HashTable extends Main {
     }
 
     /**
-     * @param key
-     * @return
+     * @param key clave por la cual buscaremos una colisión en la tabla
+     * @return devuelve una colisión que esté relacionada con la clave añadida
      */
     public ArrayList<String> getCollisionsForKey(String key) {
         return getCollisionsForKey(key, 1);
     }
 
     /**
-     * @param key
-     * @param quantity
+     * @param key clave por la cual buscaremos varias colisiones (quantity) en la tabla
+     * @param quantity cantidad de colisiones que queremos buscar
      * @return
      */
     public ArrayList<String> getCollisionsForKey(String key, int quantity){

@@ -168,5 +168,7 @@ class HashTableTest {
                 " bucket[2] = [2, Angel]\n" +
                 " bucket[8] = [-5, hola]", hashTable.toString());
 
+
+
     }
 }
